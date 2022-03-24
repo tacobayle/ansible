@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Loop over multiple tasks
+      include_tasks: tasks.yml
+      loop: "{{ nsx.config.transport_node_profiles }}"
+      loop_control:
+        loop_var: outer_item

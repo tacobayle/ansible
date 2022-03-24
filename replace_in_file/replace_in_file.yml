@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    mybollean1: true
+    mybollean2: true
+    cni: antrea
+    myvars: "10.41.134.130"
+    url: "https://github.com/vmware-tanzu/antrea/releases/download/v1.2.3/antrea.yml"
+    kubernetes:
+      username: nic
+
+
+  tasks:
+
+    - name: Download yaml file
+      get_url:
+        url: "{{ url }}"
+        dest: "/home/{{ kubernetes.username }}/{{ url | basename }}"
+
+    - name: Replace a localhost entry searching for a literal string to avoid escaping
+      lineinfile:
+        path: "/home/{{ kubernetes.username }}/{{ url | basename }}"
+        regexp: 'NodePortLocal: false'
+        line: '      NodePortLocal: true'

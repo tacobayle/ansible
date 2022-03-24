@@ -1,0 +1,57 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    mybollean1: true
+    mybollean2: true
+    mybollean3: true
+    cni: antrea
+    myvars: "10.41.134.130"
+    url: "https://github.com/vmware-tanzu/antrea/releases/download/v1.2.3/antrea.yml"
+    kubernetes:
+      username: nic
+
+
+  tasks:
+
+    - name: Debug when mybollean3 is false
+      debug:
+        msg: "Message if mybollean3 is false"
+      when:
+        - not mybollean3 | bool
+
+
+    - name: Debug when mybollean3 is true
+      debug:
+        msg: "Message if mybollean3 is true"
+      when:
+        - mybollean3 | bool
+
+    - name: Debug when mybollean1 is true and myvars is defined
+      debug:
+        msg: Message1
+      when:
+        - mybollean1 | bool
+        - myvars is defined
+
+    - name: Debug when mybollean1 is true and myvars is not defined
+      debug:
+        msg: Message2
+      when:
+        - mybollean1 | bool
+        - myvars is not defined
+
+    - name: Debug when cni is antrea and mybollean2 is true
+      debug:
+        msg: Message3
+      when:
+        - mybollean2 | bool
+        - cni == "antrea"
+
+    - name: Debug when cni is not antrea and mybollean2 is true
+      debug:
+        msg: Message3
+      when:
+        - mybollean2 | bool
+        - cni != "antrea"
+

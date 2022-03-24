@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: Debug
+      debug:
+        msg: "{{ cloud_nsxt_uuid | default('vs-nsxt' + 1 | string + '.' + 'mydomain.com') }}"

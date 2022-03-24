@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - name: Create required length of password
+      debug:
+        msg: "{{ lookup('password', '/dev/null length=4 chars=ascii_lowercase') + '_' + lookup('password', '/dev/null length=4 chars=ascii_uppercase') + '-' + lookup('password', '/dev/null length=4 chars=digits') | upper }}"
+

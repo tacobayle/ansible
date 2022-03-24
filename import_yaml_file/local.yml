@@ -23,6 +23,8 @@
       debug:
         msg: "{{ item.0.name }}"
       loop: "{{ nsxt.networks_data  | from_json | product(my_list) | list }}"
+      loop_control:
+        label: "{{ item.0.name }} tested against {{ item.1.name }}"
       when:
         - item.0.name == item.1.name
 

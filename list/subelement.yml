@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  gather_facts: no
+  
+  vars:
+    list1:
+      - name: pool1
+        servers:
+          - 1.1.1.1
+          - 2.2.2.2
+      - name: pool2
+        servers:
+          - 1.1.1.1
+          - 2.2.2.2
+
+
+
+  tasks:
+
+    - name: Debug variable avi_credentials
+      debug:
+        msg: "{{ item.0 }} - {{ item.1 }} - {{ my_idx + 1 }}"
+      with_subelements:
+        - "{{ list1 }}"
+        - servers
+      loop_control:
+        label: "Update {{ item.0.name }}"
+        index_var: my_idx
+
