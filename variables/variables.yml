@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+
+
+  tasks:
+
+    - name: Set variable avi_credentials
+      set_fact:
+        avi_credentials:
+          api_version: "21.1.3"
+          controller: "1.1.1.1"
+          password: "VMware1!"
+          username: "admin"
+      tags:
+        - creds
+
+    - name: Debug variable avi_credentials
+      debug:
+        msg: "{{ avi_credentials.password }}"
+      tags:
+        - debug
+

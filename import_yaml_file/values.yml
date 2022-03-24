@@ -1,0 +1,36 @@
+---
+avi_version: 21.1.3
+controllerPrivateIps:
+  - 100.100.11.11
+avi_old_password: "avi_old_password"
+avi_password: "avi_password"
+avi_username: "admin"
+controller:
+  aviCredsJsonFile: ~/.creds.json
+  environment: vCenter
+  cluster: false
+  ntp:
+    - 10.23.108.1
+  dns:
+    - 10.41.134.134
+nsx_username: admin
+nsx_password: nsx_password
+nsx_server: 10.41.134.136
+nsxt:
+  name: dc1_nsxt
+  domains:
+    - name: avi.com
+  transport_zone:
+    name: tz_overlay
+  segments_overlay: |
+    [{"avi_controller":"11","avi_ipam_pool":"100.100.11.210-100.100.11.230","cidr":"100.100.11.0/24","description":"keep the management segment at the first position in the segment_overlay list - do not remove","display_name":"my-segment-mgmt","gw":"1","tier1":"my-tier1","transport_zone":"tz_overlay"},{"avi_app_server_ips":["100.100.21.11","100.100.21.12","100.100.21.13"],"cidr":"100.100.21.0/24","description":"keep the segment server 1 at the second position in the segment_overlay list - do not remove","display_name":"my-segment-server-1","gw":"1","tier1":"my-tier1","transport_zone":"tz_overlay"},{"cidr":"100.100.22.0/24","description":"keep the segment server 2 at the second position in the segment_overlay list - do not remove","display_name":"my-segment-server-2","gw":"1","tier1":"my-tier1","transport_zone":"tz_overlay"},{"cidr":"100.100.31.0/24","description":"keep the vip segment 1 at the fourth position in the segment_overlay list - do not remove","display_name":"my-segment-vip-1","gw":"1","tier1":"my-tier1","transport_zone":"tz_overlay"},{"cidr":"100.100.32.0/24","description":"keep the vip segment 2 at the fifth position in the segment_overlay list - do not remove","display_name":"my-segment-vip-2","gw":"1","tier1":"my-tier1","transport_zone":"tz_overlay"}]
+  network_management: {"name":"my-segment-mgmt","tier1":"my-tier1"}
+  networks_data: |
+    [{"name":"my-segment-vip-1","tier1":"my-tier1"},{"name":"my-segment-vip-2","tier1":"my-tier1"}]
+  networks_backend: |
+    [{"name":"my-segment-server-1","tier1":"my-tier1"},{"name":"my-segment-server-2","tier1":"my-tier1"}]
+  vcenter_details:
+    - username: administrator@domain.local
+      password: password
+      vsphere_server: 10.41.134.135
+      content_library: avi_cl
