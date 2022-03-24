@@ -2,6 +2,15 @@
 - hosts: localhost
   connection: local
   gather_facts: no
+  vars:
+    my_list:
+      - name: name1
+        tier1: tier1
+      - name: my-segment-vip-1
+        tier1: tier1
+      - name: mysegment
+        tier1: mytier1
+
 
   tasks:
 
@@ -10,17 +19,10 @@
         msg: "{{ nsxt.network_management.name }}"
 
 
-
-    - set_fact:
-        network_mgmt_details: "{{ network_mgmt_details | default({}) | combine ({'address': item.cidr.split('/')[0], 'mask': item.cidr.split('/')[1], 'tier1': item.tier1, 'begin': item.avi_ipam_pool.split('-')[0], 'end': item.avi_ipam_pool.split('-')[1]}) }}"
-      loop: "{{ nsxt.segments_overlay }}"
-      tags:
-        - cloud
-        - nsxtApi
-      when:
-        - item.display_name == nsxt.network_management.name
-
-
     - name: Debug
       debug:
-        msg: "{{ network_mgmt_details.tier1 }}"
+        msg: "{{ item.0.name }}"
+      loop: "{{ nsxt.networks_data  | from_json | product(my_list) | list }}"
+      when:
+        - item.0.name == item.1.name
+
