@@ -15,26 +15,23 @@
       - 7
       - 8
       - 9
+      - 10
+    list4:
+      - 7
+      - 8
+      - 9
+      - 10
 
   tasks:
 
-    - name: Debug
+    - name: Debug the three lists in //
       debug:
         msg: "{{ item.0, item.1, item.2 }}"
       loop: "{{ list1 | zip(list2, list3) | list }}"
 
-
-    - name: Debug
+    - name: productize list1 over list4
       debug:
-        msg: "{{ my_idx  + 1 }}:{{ item.0.0, item.0.1, item.1 }}"
-      loop: "{{ list1 | zip(list2) | product(list3) | list }}"
-      loop_control:
-        index_var: my_idx
-
-
-    - name: Debug
-      debug:
-        msg: "{{ my_idx  + 1 }}:{{ item.0, item.1}}"
-      loop: "{{ list1 | zip(list2) | list }}"
+        msg: "attempt {{ my_idx  + 1 }}: {{ item.0, item.1 }}"
+      loop: "{{ list1 | product(list4) }}"
       loop_control:
         index_var: my_idx
