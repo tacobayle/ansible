@@ -21,6 +21,10 @@
       - 8
       - 9
       - 10
+    list5:
+      - 7
+      - 8
+      - 9
 
   tasks:
 
@@ -33,5 +37,12 @@
       debug:
         msg: "attempt {{ my_idx  + 1 }}: {{ item.0, item.1 }}"
       loop: "{{ list1 | product(list4) }}"
+      loop_control:
+        index_var: my_idx
+
+    - name: productize list1 over (list2 and list5)
+      debug:
+        msg: "attempt {{ my_idx  + 1 }}: {{ item.0, item.1.0, item.1.1 }}"
+      loop: "{{ list1 | product(list2 | zip(list5) | list) }}"
       loop_control:
         index_var: my_idx

@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  vars:
+    nsxt_segments_vip:
+      - cidr: "100.21.21.0/24"
+      - cidr: "100.21.22.0/24"
+    nsxt:
+      networks_data:
+        - avi_ipam_pool: "100.21.21.10-100.21.21.20"
+        - avi_ipam_pool: "100.21.22.100-100.21.22.200"
+
+
+  tasks:
+
+
+    - name: Define configured_subnets for network - NSXT
+      set_fact:
+        configured_subnets: "{{ configured_subnets | default([]) + [[{'prefix': {'mask': item.1.cidr.split('/')[1], 'ip_addr': {'type': item.0.type | default('V4'), 'addr': item.1.cidr.split('/')[0] }}, 'static_ip_ranges': [{'range': {'begin': {'type': item.0.type | default('V4'), 'addr': item.0.avi_ipam_pool.split('-')[0]}, 'end': {'type': item.0.type | default('V4'), 'addr': item.0.avi_ipam_pool.split('-')[1]} } }]}]] }}"
+      loop: "{{ nsxt.networks_data |  zip(nsxt_segments_vip) | list }}"
+      when:
+        - nsxt.networks_data is defined
+        - nsxt_segments_vip is defined
+
+    - name: Debug
+      debug:
+        msg: "{{ configured_subnets }}"
