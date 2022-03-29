@@ -25,6 +25,20 @@
       - 7
       - 8
       - 9
+    sub_list:
+      - name: first
+        key: value
+        list:
+          - one
+          - two
+          - three
+      - name: second
+        key: value
+        list:
+          - one
+          - two
+          - three
+
 
   tasks:
 
@@ -40,9 +54,30 @@
       loop_control:
         index_var: my_idx
 
+    - name: productize list1 over list2 over list3
+      debug:
+        msg: "attempt {{ my_idx  + 1 }}: {{ item.0, item.1, item.2 }}"
+      loop: "{{ list1 | product(list2, list3) }}"
+      loop_control:
+        index_var: my_idx
+
     - name: productize list1 over (list2 and list5)
       debug:
         msg: "attempt {{ my_idx  + 1 }}: {{ item.0, item.1.0, item.1.1 }}"
       loop: "{{ list1 | product(list2 | zip(list5) | list) }}"
+      loop_control:
+        index_var: my_idx
+
+    - name: list1 and list2 in // and productize list4
+      debug:
+        msg: "attempt {{ my_idx  + 1 }}: {{ item.0.0, item.0.1, item.1 }}"
+      loop: "{{ list1 | zip(list2) | product(list4) }}"
+      loop_control:
+        index_var: my_idx
+
+    - name: sub_list productize with list 5
+      debug:
+        msg: "attempt {{ my_idx  + 1 }}: {{ item.0.0, item.0.1, item.1 }}"
+      loop: "{{ sub_list | subelements('list') | product(list5) }}"
       loop_control:
         index_var: my_idx
