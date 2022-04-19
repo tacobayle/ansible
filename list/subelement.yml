@@ -17,7 +17,7 @@
 
   tasks:
 
-    - name: Debug variable avi_credentials
+    - name: Debug variable with subelements
       debug:
         msg: "{{ item.0 }} - {{ item.1 }} - {{ my_idx + 1 }}"
       with_subelements:
@@ -27,3 +27,10 @@
         label: "Update {{ item.0.name }}"
         index_var: my_idx
 
+    - name: Debug variable with subelements
+      debug:
+        msg: "{{ item.0.name }} - {{ item.1 }} - {{ my_idx + 1 }}"
+      loop: "{{ list1 | subelements('servers') }}"
+      loop_control:
+        label: "Update {{ item.0.name }}"
+        index_var: my_idx
