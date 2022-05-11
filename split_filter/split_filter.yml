@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: filter network address
+      debug:
+        msg: "{{ vcenter.cloud.network_vip | from_json | community.general.json_query('cidr') | split('/') |first }}"
+
+
+    - name: filter network prefix
+      debug:
+        msg: "{{ vcenter.cloud.network_vip | from_json | community.general.json_query('cidr') | split('/') | last }}"
