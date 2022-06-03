@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name:  first network address controller
+      debug:
+        msg: "{{ controllerPrivateIps | from_json | first }}"
+
+    - name: middle network address controller
+      debug:
+        msg: "{{ controllerPrivateIps | from_json | community.general.json_query('[1]') }}"
+
+
+    - name: last network address controller
+      debug:
+        msg: "{{ controllerPrivateIps | from_json | last }}"
+
+    - name: filter first DNS VS
+      debug:
+        msg: "{{ vcenter.cloud.virtual_services | from_json | community.general.json_query('dns[*].name | [0]') }}"

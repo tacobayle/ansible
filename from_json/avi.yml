@@ -1,0 +1,38 @@
+controllerPrivateIps: |
+  ["10.206.115.90", "1.1.1.1", "2.2.2.2"]
+controller:
+  cluster: false
+  ntp: |
+    ["95.81.173.155","188.165.236.162"]
+  dns: |
+    ["10.206.8.130","10.206.8.131"]
+  environment: vcenter
+avi_password: avi_password
+avi_old_password: avi_old_password
+avi_version: 21.1.4
+avi_username: admin
+vsphere_username: vsphere_username
+vsphere_password: vsphere_password
+vsphere_server: ""
+vcenter:
+  domains: |
+    [{"name":"avi.com"}]
+  cloud:
+    name: dc1-vcenter
+    dc: wdc-06-vc12
+    dchp_enabled: true
+    network_management: |
+      {"dhcp_enabled":true,"exclude_discovered_subnets":true,"name":"vxw-dvs-34-virtualwire-3-sid-6120002-wdc-06-vc12-avi-mgmt","type":"V4","vcenter_dvs":true}
+    network_vip: |
+      {"cidr":"100.64.133.0/24","dhcp_enabled":true,"exclude_discovered_subnets":true,"ipEndPool":"199","ipStartPool":"150","name":"vxw-dvs-34-virtualwire-120-sid-6120119-wdc-06-vc12-avi-dev116","type":"V4","vcenter_dvs":true}
+    network_backend: |
+      {"cidr":"100.64.130.0/24","dhcp_enabled":true,"exclude_discovered_subnets":true,"name":"vxw-dvs-34-virtualwire-117-sid-1080116-sof2-01-vc08-avi-dev113","type":"V4","vcenter_dvs":true}
+    service_engine_groups: |
+      [{"name":"seg-openshift"}]
+    pools: |
+      []
+    pool_groups: |
+      []
+    virtual_services: |
+      {"dns":[{"name":"dns_vs","services":[{"port":53}]}],"http":[]}
+

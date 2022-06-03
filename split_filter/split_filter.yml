@@ -13,3 +13,14 @@
     - name: filter network prefix
       debug:
         msg: "{{ vcenter.cloud.network_vip | from_json | community.general.json_query('cidr') | split('/') | last }}"
+
+    - name: test
+      debug:
+        msg: "{{ item.name + '.' + vcenter.domains | from_json | first | community.general.json_query('name') }}"
+          #msg: "{{ item.name + '.' + vcenter | community.general.json_query('domains[0].name') }}"
+      loop: "{{ vcenter.cloud.virtual_services | from_json | community.general.json_query('dns') }}"
+
+
+    - name: test
+      debug:
+        msg: "{{ '/api/vimgrnwruntime/?name=' + vcenter.cloud.network_management | from_json | community.general.json_query('name') }}"
