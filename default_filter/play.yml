@@ -3,19 +3,19 @@
   connection: local
   gather_facts: no
   vars:
-    vcenter_folder: folder
+    #vcenter_folder: folder
     vcenter:
       cloud:
         service_engine_groups:
           - name: seg1
-            vcenter_folder: seg1_folder
+            #vcenter_folder: seg1_folder
 
 
   tasks:
 
     - name:  first network address controller
       debug:
-        msg: "{{ item.vcenter_folder | default(vcenter_folder) }}"
+        msg: "{{ item.vcenter_folder | default(vcenter_folder) | default (omit) }}"
       loop: "{{ vcenter.cloud.service_engine_groups }}"
       loop_control:
         label: "Modifying SE group called {{ item.name }}"
