@@ -21,3 +21,10 @@
     - name: filter first DNS VS
       debug:
         msg: "{{ vcenter.cloud.virtual_services | from_json | community.general.json_query('dns[*].name | [0]') }}"
+
+
+    - name: test length of json list
+      debug:
+        msg: "my length is not 0"
+      when:
+        - vcenter.cloud.virtual_services.pools | from_json | length >= 0

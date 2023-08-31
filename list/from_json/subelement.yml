@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  gather_facts: no
+  
+
+  tasks:
+
+    - name: Debug variable with subelements
+      debug:
+        msg: "{{ item.0.name }} - {{ item.1.cidr | split('/') | first  }} - {{ item.1.cidr | split('/') | last }} - {{ item.1.range | split('-') | first }} - {{ item.1.range | split('-') | last }} - {{ my_idx + 1 }}"
+      with_subelements:
+        - "{{ additional_subnets | from_json }}"
+        - subnets
+      loop_control:
+        label: "Update {{ item.0.name }}"
+        index_var: my_idx
+
